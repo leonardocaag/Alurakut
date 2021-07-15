@@ -11,7 +11,8 @@ const GlobalStyle = createGlobalStyle`
   
   body {
     font-family: sans-serif;
-    background-color: #D9E6F6;
+    background: url('https://diariodorio.com/wp-content/uploads/2019/07/rio-de-janeiro-brasil-mountain-tourism-landscape.jpg');
+    background-size: 100%;
   }
   #__next {
     display: flex;
