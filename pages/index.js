@@ -4,11 +4,6 @@ import Box from '../src/components/Box'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AluraCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
-//  const Title = styled.h1`
-//    font-size: 50px;
-//    color: ${({ theme }) => theme.colors.primary};
-// `
-
 function ProfileSidebar (propriedades) {
     return (
       <Box as="aside">
@@ -26,11 +21,35 @@ function ProfileSidebar (propriedades) {
     </Box>
   )
 }
+
+function ProfileRelationsBox(propriedades) {
+  return (
+    <ProfileRelationsBoxWrapper>
+    <h2 className="smallTitle">
+      {propriedades.title} ({propriedades.items.length})
+    </h2>
+    <ul>
+      {/* {seguidores.map((itemAtual) => {
+        return (
+          <li key={itemAtual}>
+            <a href={`https://${itemAtual}.png`}>
+              <img src={itemAtual.image} />
+              <span>{itemAtual.title}</span>
+            </a>
+          </li>
+        )
+      }) */}
+    </ul>
+  </ProfileRelationsBoxWrapper>
+  )
+}
+
 export default function Home() {
   const usuarioAleatorio = 'leonardocaag';
   const [comunidades, setComunidades] = React.useState([{
     id: '12802378123789378912789789123896123', 
     title: 'Eu odeio acordar cedo',
+  
     image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
   }]);
   // const comunidades = comunidades[0];
@@ -46,6 +65,23 @@ export default function Home() {
     'marcobrunodev',
     'felipefialho'
   ]
+const [seguidores, setSeguidores] = React.useState([]);
+  // 0 - Pegar o array de dados do github
+  React.useEffect(function() {
+    fetch('https://api.github.com/user/leonardocaag/followers')
+    .then(function (respostaDoServidor) {
+      return respostaDoServidor.json()
+    })
+    .then(function(respostaCompleta) {
+      setSeguidores(respostaCompleta);
+    })
+    
+  }, [])
+
+  console.log('seguidores antes do return', seguidores);
+
+  // 1 - Criar um box que vai ter um map, baseado nos itens do array
+  // que pegamos no github
 
   return (
     <>
@@ -104,6 +140,7 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+          <ProfileRelationsBox title="Seguidores" items={seguidores} />
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
               Comunidades ({comunidades.length})
